@@ -3,6 +3,7 @@ import Routes from './src/routes/routes';
 import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { Asset } from 'expo-asset';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -32,7 +33,21 @@ export default class App extends React.Component {
 }
 
 async function loadResourcesAsync() {
+  async function _cacheResourcesAsync() {
+    const images = [require('./assets/tv1.png'),
+                    require('./assets/sofa.png'),
+                    require('./assets/abajur.png'),
+                    require('./assets/cadeira.png')];
+
+    const cacheImages = images.map(image => {
+      return Asset.fromModule(image).downloadAsync();
+    }); 
+
+    return cacheImages
+  }
+
 	await Promise.all([
+    _cacheResourcesAsync(),
 		Font.loadAsync({
 			"AirbnbCereal-Medium": require("./assets/fonts/AirbnbCereal-Medium.ttf"),
 			"AirbnbCereal-Black": require("./assets/fonts/AirbnbCereal-Black.ttf"),

@@ -1,25 +1,27 @@
 import React from 'react'
-import { Image, Text, View } from 'react-native'
+import { Image, Text, View, Animated } from 'react-native'
 import { screenHeight, screenWidth } from '../../constants/Screen'
 import chair from '../../../assets/cadeira.png';
 import bedsideLamp from '../../../assets/abajur.png';
 import sofa from '../../../assets/sofa.png';
 import tv from '../../../assets/tv1.png';
-import Fonts from '../../constants/Fonts';
+import { useState, useEffect } from 'react';
 
 export default function SliderImages({ position = 1 }) {
-    function ball(position, isWhich) {
-        if(position === isWhich) {
-            return (
-                <View style={{ borderColor: '#f44736', borderWidth: 1, width: screenWidth * 0.03, height: screenWidth * 0.03, borderRadius: 1000, marginRight: 10, alignItems: 'center', justifyContent: 'center' }}>
-                    <View style={{ backgroundColor: '#f44736', width: screenWidth * 0.02, height: screenWidth * 0.02, borderRadius: 1000 }}/>
-                </View>
-            )
-        }
-        return (
-            <View style={{ backgroundColor: '#f44736', width: screenWidth * 0.02, height: screenWidth * 0.02, borderRadius: 100, marginRight: 10 }}></View>
-        )
+    const [opacity, setOpacity] = useState(new Animated.Value(0))
+
+    function onLoad() {
+        opacity.setValue(0)
+        Animated.timing(opacity, {
+            toValue: 1, 
+            duration: 500,
+            useNativeDriver: true
+        }).start()
     }
+
+    useEffect(() => {
+        onLoad()
+    }, [position])
 
     function image(position) {
         if(position === 1) {
@@ -39,35 +41,42 @@ export default function SliderImages({ position = 1 }) {
         }
     }
 
-    function textPosition() {
-        if(position === 1) {
-            return 'Escolha entre milhares de produtos'
-        }
-        else if(position === 2) {
-            return 'Adicione produtos ao carrinho'
-        }
-        else if(position === 3) {
-            return 'Acompanhe produtos desejados por meio dos favoritos'
-        }
-        else if(position === 4) {
-            return 'Muitas promoções para aproveitar, faça seu cadastro!'
-        }
-        else {
-            return 'Escolha entre milhares de produtos'
-        }
+    function returnImage(image) {
+        return(
+            <Animated.Image
+                resizeMode="contain"
+                onLoad={onLoad}
+                width={screenWidth * 1} 
+                height={screenHeight * 0.5}
+                source={image}
+                style={[
+                    {
+                        opacity: opacity,
+                        transform: [
+                            {
+                                scale: opacity.interpolate({
+                                    inputRange: [0, 1],
+                                    outputRange: [0.85, 1]
+                                })
+                            }
+                        ]
+                    },
+                    { 
+                        width: screenWidth * 0.7, 
+                        maxHeight: screenHeight * 0.36,
+                        //backgroundColor: 'red' 
+                    }
+                ]}
+            />
+        )
     }
+
+    
     
     return(
-        <View style={{ alignItems: 'center', justifyContent: 'center', position: 'absolute', }}>
-            <Image style={{ width: screenWidth * 0.7, height: screenHeight * 0.6 }} resizeMode="contain" width={screenWidth * 1} height={screenHeight * 0.5} source={image(position)}/>
-            <View style={{ alignItems: 'center', justifyContent: 'center', paddingHorizontal: 20 }}>
-                <Text style={{ color: '#6e6e86', fontSize: 16.5, fontFamily: Fonts.main }}>{textPosition()}</Text>
-            </View>
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', marginTop: 25 }}>
-                {ball(position, 1)}
-                {ball(position, 2)}
-                {ball(position, 3)}
-                {ball(position, 4)}
+        <View style={{ width: screenWidth * 0.9, height: screenWidth * 0.9, borderRadius: 50000, borderWidth: 25, borderColor: '#191a36', justifyContent: 'center', alignItems: 'center' }}>
+            <View style={{ alignItems: 'center', justifyContent: 'center', position: 'absolute' }}>
+                {returnImage(image(position))}
             </View>
         </View>
     )

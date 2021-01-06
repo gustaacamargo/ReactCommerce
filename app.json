@@ -18,6 +18,11 @@
     ],
     "ios": {
       "supportsTablet": true,
+      "config": {
+        "googleSignIn": {
+            "reservedClientId": "id"
+          }
+      },
       "googleServicesFile": "./GoogleService-Info.plist"
     },
     "android": {
