@@ -7,12 +7,18 @@ import { screenHeight, screenWidth } from '../../constants/Screen';
 import LottieView from 'lottie-react-native';
 import signup from '../../../assets/signup.json'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import { useRef } from 'react';
 
 export default function SignUp({ navigation }) {
     const [email, setEmail] = useState('')
     const [fullname, setFullname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+
+    const fullnameRef = useRef(null)
+    const emailRef = useRef(null)
+    const passwordRef = useRef(null)
+    const confirmPasswordRef = useRef(null)
 
     return(
         <SafeAreaView style={{ backgroundColor: '#131432', flex: 1 }}>
@@ -22,7 +28,7 @@ export default function SignUp({ navigation }) {
                     <Text style={{ color: '#f44736', fontSize: 26, fontFamily: Fonts.mainBold }}>Commerce</Text>
                 </View>
                 
-                <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
+                <KeyboardAwareScrollView extraHeight={screenHeight * 0.09} contentContainerStyle={{ flex: 1 }}>
                     <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 25, marginTop: 35 }}>Cadastre-se!</Text>
                     <View style={{ flex: 1, alignItems: 'flex-start', marginVertical: 15 }}>
                         <LottieView source={signup} resizeMode="contain" loop autoPlay style={{ justifyContent: 'center', alignItems: 'center' }} />
@@ -44,6 +50,8 @@ export default function SignUp({ navigation }) {
                             }}
                             keyboardType="default"
                             keyboardAppearance="dark"
+                            ref={fullnameRef}
+                            onSubmitEditing={() => emailRef.current.focus()}
                         />
                         <TextInput
                             placeholder="E-mail"
@@ -61,6 +69,8 @@ export default function SignUp({ navigation }) {
                             }}
                             keyboardType="email-address"
                             keyboardAppearance="dark"
+                            ref={emailRef}
+                            onSubmitEditing={() => passwordRef.current.focus()}
                         />
                         <TextInput
                             placeholder="Senha"
@@ -78,6 +88,8 @@ export default function SignUp({ navigation }) {
                             }}
                             secureTextEntry={true}
                             keyboardAppearance="dark"
+                            ref={passwordRef}
+                            onSubmitEditing={() => confirmPasswordRef.current.focus()}
                         />
                         <TextInput
                             placeholder="Confirmar senha"
@@ -95,6 +107,7 @@ export default function SignUp({ navigation }) {
                             }}
                             secureTextEntry={true}
                             keyboardAppearance="dark"
+                            ref={confirmPasswordRef}
                         />
                         <TouchableOpacity style={{ 
                             backgroundColor: '#f44736',
