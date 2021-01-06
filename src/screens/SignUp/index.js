@@ -5,12 +5,14 @@ import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Fonts from '../../constants/Fonts';
 import { screenHeight, screenWidth } from '../../constants/Screen';
 import LottieView from 'lottie-react-native';
-import hello from '../../../assets/hello.json'
+import signup from '../../../assets/signup.json'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 
-export default function Login({ navigation }) {
+export default function SignUp({ navigation }) {
     const [email, setEmail] = useState('')
+    const [fullname, setFullname] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     return(
         <SafeAreaView style={{ backgroundColor: '#131432', flex: 1 }}>
@@ -21,11 +23,28 @@ export default function Login({ navigation }) {
                 </View>
                 
                 <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }}>
-                    <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 25, marginTop: 35 }}>Bem vindo de volta!</Text>
-                    <View style={{ flex: 0.8, alignItems: 'flex-start' }}>
-                        <LottieView source={hello} resizeMode="contain" loop autoPlay style={{ justifyContent: 'center', alignItems: 'center' }} />
+                    <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 25, marginTop: 35 }}>Cadastre-se!</Text>
+                    <View style={{ flex: 1, alignItems: 'flex-start', marginVertical: 15 }}>
+                        <LottieView source={signup} resizeMode="contain" loop autoPlay style={{ justifyContent: 'center', alignItems: 'center' }} />
                     </View>
                     <View style={{ marginBottom: 60 }}>
+                        <TextInput
+                            placeholder="Nome completo"
+                            value={fullname}
+                            onChangeText={setFullname}
+                            placeholderTextColor="#6d6b80"
+                            style={{ 
+                                backgroundColor: '#191a36',
+                                borderRadius: 12,
+                                height: 60,
+                                color: '#FFF',
+                                paddingLeft: 15,
+                                fontFamily: Fonts.main,
+                                marginBottom: 20
+                            }}
+                            keyboardType="default"
+                            keyboardAppearance="dark"
+                        />
                         <TextInput
                             placeholder="E-mail"
                             value={email}
@@ -60,6 +79,23 @@ export default function Login({ navigation }) {
                             secureTextEntry={true}
                             keyboardAppearance="dark"
                         />
+                        <TextInput
+                            placeholder="Confirmar senha"
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
+                            placeholderTextColor="#6d6b80"
+                            style={{ 
+                                backgroundColor: '#191a36',
+                                borderRadius: 12,
+                                height: 60,
+                                color: '#FFF',
+                                paddingLeft: 15,
+                                fontFamily: Fonts.main,
+                                marginBottom: 20
+                            }}
+                            secureTextEntry={true}
+                            keyboardAppearance="dark"
+                        />
                         <TouchableOpacity style={{ 
                             backgroundColor: '#f44736',
                             borderRadius: 12,
@@ -70,17 +106,14 @@ export default function Login({ navigation }) {
                             justifyContent: 'center',
                             marginBottom: 20
                         }}> 
-                            <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 22 }}>Login</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={{ alignSelf: 'flex-end', marginBottom: 20 }}>
-                            <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 15 }}>Esqueceu sua senha?</Text>
+                            <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 22 }}>Cadastrar</Text>
                         </TouchableOpacity>
                     </View>
                 </KeyboardAwareScrollView>
 
                 <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={{ alignSelf: 'center', flexDirection: 'row' }}>
-                    <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 15 }}>Novo por aqui? </Text>
-                    <Text style={{ color: '#f44736', fontFamily: Fonts.main, fontSize: 15 }}>Cadastre-se!</Text>
+                    <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 15 }}>Já tem uma conta? </Text>
+                    <Text style={{ color: '#f44736', fontFamily: Fonts.main, fontSize: 15 }}>Faça seu login!</Text>
                 </TouchableOpacity>
             </View>
         </SafeAreaView>
