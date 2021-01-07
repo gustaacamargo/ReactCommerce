@@ -1,24 +1,26 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import HomeScreen from '../screens/Home';
-import Login from '../screens/Login';
-import SignUp from '../screens/SignUp';
-import PreLogin from '../screens/PreLogin';
+import React, { useEffect, useState } from 'react'
+import { useStore } from '../reducer'
+import Drawer from './drawer.routes'
+import { Auth } from './stack.routes'
+import { NavigationContainer } from '@react-navigation/native'
 
-const Stack = createStackNavigator();
+export default function Routes() {
+    const { userLogged: { userLogged } } = useStore()
+    const [isLogged, setIsLogged] = useState(false);
 
-function Routes() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen options={{ headerShown: false }} name="PreLogin" component={PreLogin} />
-        <Stack.Screen options={{ headerShown: false }} name="Login" component={Login} />
-        <Stack.Screen options={{ headerShown: false }} name="SignUp" component={SignUp} />
-        <Stack.Screen name="Home" component={HomeScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>
-  );
+    useEffect(() => {
+        if(userLogged.id) {
+            setIsLogged(true)
+        }
+    }, [userLogged])
+
+    return (
+        <NavigationContainer>
+            {isLogged ? (
+                <>{Auth()}</>
+            ) : (
+                    <>{Drawer()}</>
+                )}
+        </NavigationContainer>
+    )
 }
-
-export default Routes;

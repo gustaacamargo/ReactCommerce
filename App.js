@@ -4,7 +4,8 @@ import AppLoading from 'expo-app-loading';
 import * as Font from 'expo-font';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { Asset } from 'expo-asset';
-
+import { StateProvider } from './src/reducer'
+import Store from './src/store/reducers/index'
 export default class App extends React.Component {
   constructor(props) {
 		super(props)
@@ -25,9 +26,11 @@ export default class App extends React.Component {
     }
 
     return (
-      <SafeAreaProvider>
-        <Routes/>
-      </SafeAreaProvider>
+      <StateProvider store={Store}>
+        <SafeAreaProvider>
+          <Routes/>
+        </SafeAreaProvider>
+      </StateProvider>
     );
   }
 }

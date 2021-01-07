@@ -9,11 +9,13 @@ import hello from '../../../assets/hello.json'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import Fire from '../../../Fire';
 import errorsFirebase from '../../utils/errorsFirebase';
+import { useDispatch } from '../../reducer';
 
 export default function Login({ navigation }) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLogging, setIsLogging] = useState(false);
+    const { userLoggedDispatch } = useDispatch()
 
     function login() {
         setIsLogging(true);
@@ -22,8 +24,14 @@ export default function Login({ navigation }) {
 
         Fire.loginEmailSenha(email, password)
         .then(async values => {
+            console.log(values);
+            console.log('AAAAAAAAA');
+            userLoggedDispatch.setUserLogged({
+                email,
+                name: 'teste',
+                id: 1
+            })
             setIsLogging(false);
-            navigation.navigate('Home')
         })
         .catch(error => {
             setIsLogging(false)
