@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, TextInput, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Fonts from '../../constants/Fonts';
 import { screenHeight, screenWidth } from '../../constants/Screen';
@@ -8,17 +8,45 @@ import LottieView from 'lottie-react-native';
 import signup from '../../../assets/signup.json'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { useRef } from 'react';
+import Fire from '../../../Fire';
+import errorsFirebase from '../../utils/errorsFirebase';
 
 export default function SignUp({ navigation }) {
     const [email, setEmail] = useState('')
     const [fullname, setFullname] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [isLogging, setIsLogging] = useState(false);
 
     const fullnameRef = useRef(null)
     const emailRef = useRef(null)
     const passwordRef = useRef(null)
     const confirmPasswordRef = useRef(null)
+
+    async function signUp() {
+        if(!email) { Alert.alert('Campo não preenchido', 'O campo e-mail deve ser preenchido'); return }
+        if(!fullname) { Alert.alert('Campo não preenchido', 'O campo nome completo deve ser preenchido'); return }
+        if(!password) { Alert.alert('Campo não preenchido', 'O campo senha deve ser preenchido'); return }
+        if(!confirmPassword) { Alert.alert('Campo não preenchido', 'O campo confirmar senha deve ser preenchido'); return }
+
+        if(password !== confirmPassword) { Alert.alert('Senha incorreta', 'As senhas digitadas não são iguais!'); return }
+        setIsLogging(true);
+        await Fire.signUp(email, password)
+        .then(() => {
+            navigation.navigate('Home')
+            setIsLogging(false);
+        })
+        .catch((error) => {
+            setIsLogging(false);
+            let err = errorsFirebase(error.code)
+
+            if(err == null) {
+                err = error.message
+            }
+
+            Alert.alert("Erro ao criar conta", err);
+        });
+    }
 
     return(
         <SafeAreaView style={{ backgroundColor: '#131432', flex: 1 }}>
@@ -109,7 +137,7 @@ export default function SignUp({ navigation }) {
                             keyboardAppearance="dark"
                             ref={confirmPasswordRef}
                         />
-                        <TouchableOpacity style={{ 
+                        <TouchableOpacity onPress={signUp} style={{ 
                             backgroundColor: '#f44736',
                             borderRadius: 12,
                             height: 60,
@@ -117,9 +145,11 @@ export default function SignUp({ navigation }) {
                             fontFamily: Fonts.main,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginBottom: 20
+                            marginBottom: 20,
+                            flexDirection: 'row'
                         }}> 
                             <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 22 }}>Cadastrar</Text>
+                            {isLogging && <ActivityIndicator style={{ marginLeft: 10 }} color="#FFF" size="small"/>}
                         </TouchableOpacity>
                     </View>
                 </KeyboardAwareScrollView>

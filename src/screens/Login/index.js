@@ -1,16 +1,41 @@
 import React from 'react';
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, Image, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, ActivityIndicator, Image, TextInput, Alert } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import Fonts from '../../constants/Fonts';
 import { screenHeight, screenWidth } from '../../constants/Screen';
 import LottieView from 'lottie-react-native';
 import hello from '../../../assets/hello.json'
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import Fire from '../../../Fire';
+import errorsFirebase from '../../utils/errorsFirebase';
 
 export default function Login({ navigation }) {
-    const [email, setEmail] = useState('')
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [isLogging, setIsLogging] = useState(false);
+
+    function login() {
+        setIsLogging(true);
+        if(!email) { Alert.alert('Campo não preenchido', 'O campo e-mail deve ser preenchido'); return }
+        if(!password) { Alert.alert('Campo não preenchido', 'O campo senha deve ser preenchido'); return }
+
+        Fire.loginEmailSenha(email, password)
+        .then(async values => {
+            setIsLogging(false);
+            navigation.navigate('Home')
+        })
+        .catch(error => {
+            setIsLogging(false)
+            let err = errorsFirebase(error.code)
+
+            if(err == null) {
+                err = error.message
+            }
+
+            Alert.alert('Oops', err)
+        });
+    }
 
     return(
         <SafeAreaView style={{ backgroundColor: '#131432', flex: 1 }}>
@@ -60,7 +85,7 @@ export default function Login({ navigation }) {
                             secureTextEntry={true}
                             keyboardAppearance="dark"
                         />
-                        <TouchableOpacity style={{ 
+                        <TouchableOpacity onPress={login} style={{ 
                             backgroundColor: '#f44736',
                             borderRadius: 12,
                             height: 60,
@@ -68,9 +93,11 @@ export default function Login({ navigation }) {
                             fontFamily: Fonts.main,
                             alignItems: 'center',
                             justifyContent: 'center',
-                            marginBottom: 20
+                            marginBottom: 20,
+                            flexDirection: 'row'
                         }}> 
                             <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 22 }}>Login</Text>
+                            {isLogging && <ActivityIndicator style={{ marginLeft: 10 }} color="#FFF" size="small"/>}
                         </TouchableOpacity>
                         <TouchableOpacity style={{ alignSelf: 'flex-end', marginBottom: 20 }}>
                             <Text style={{ color: '#fff', fontFamily: Fonts.main, fontSize: 15 }}>Esqueceu sua senha?</Text>
