@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import { TextInput } from 'react-native';
-import { View, Text, SafeAreaView } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import Header from '../../components/Header';
 import Fonts from '../../constants/Fonts';
-import { screenWidth } from '../../constants/Screen';
 import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
-import { TouchableOpacity } from 'react-native';
+import ProductCard from '../../components/ProductCard';
 
 export default function HomeScreen({ navigation }) {
     const [search, setSearch] = useState('')
@@ -13,7 +11,7 @@ export default function HomeScreen({ navigation }) {
     return (
         <View style={{ backgroundColor: '#131432', flex: 1 }}>
             <Header goTo="drawer" navigation={navigation}/>
-            <View style={{ flex: 1, paddingHorizontal: screenWidth * 0.05 }}>
+            <View style={{ paddingHorizontal: 18 }}>
                 <Text style={{ color: '#fff', fontSize: 26, fontFamily: Fonts.mainBold, marginTop: 20 }}>Selecione </Text>
                 <View style={{ flexDirection: 'row' }}>
                     <Text style={{ color: '#fff', fontSize: 26, fontFamily: Fonts.mainBold }}>vários </Text>
@@ -61,10 +59,13 @@ export default function HomeScreen({ navigation }) {
                         <FontAwesome name="sliders" size={24} color="#6d6b80" />
                     </TouchableOpacity>
                 </View>
-
-
-                
             </View>
+            <ScrollView style={{ marginTop: 20 }} horizontal>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+                <ProductCard/>
+            </ScrollView>
         </View>
     );
 }
