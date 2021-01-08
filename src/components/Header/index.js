@@ -36,6 +36,7 @@ export default function Header({ navigation, text, goTo, onPress }) {
 
     return (
         <He
+            containerStyle={{ borderBottomWidth: 0 }}
             leftComponent={
                 <TouchableOpacity onPress={() => action('action')}>
                     <Ionicons name={action()} size={32} color="white" />
