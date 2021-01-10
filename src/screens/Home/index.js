@@ -66,10 +66,10 @@ export default function HomeScreen({ navigation }) {
             </View>
             <ScrollView>
                 <ScrollView style={{ marginTop: 20 }} showsHorizontalScrollIndicator={false} horizontal>
-                    <ProductCard/>
-                    <ProductCard/>
-                    <ProductCard/>
-                    <ProductCard/>
+                    <ProductCard navigation={navigation}/>
+                    <ProductCard navigation={navigation}/>
+                    <ProductCard navigation={navigation}/>
+                    <ProductCard navigation={navigation}/>
                 </ScrollView>
 
                 <View style={{ paddingHorizontal: 18, marginTop: 20 }}>

@@ -48,8 +48,8 @@ export default function Header({ navigation, text, goTo, onPress }) {
                     color: "#fff",
                     fontSize: 18,
                     fontFamily: Fonts.mainBold,
-                    width: screenWidth * 0.7,
-                    textAlign: "center"
+                    textAlign: "center",
+                    top: 5
                 }
             }}
             rightComponent={

@@ -4,6 +4,7 @@ import HomeScreen from '../screens/Home';
 import Login from '../screens/Login';
 import SignUp from '../screens/SignUp';
 import PreLogin from '../screens/PreLogin';
+import ProdcutScreen from '../screens/Product';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ export function Home() {
   return (
     <Stack.Navigator>
       <Stack.Screen options={{ headerShown: false }} name="Home" component={HomeScreen} />
+      <Stack.Screen options={{ headerShown: false }} name="Product" component={ProdcutScreen} />
     </Stack.Navigator>
   );
 }

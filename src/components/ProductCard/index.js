@@ -4,9 +4,11 @@ import { AntDesign, Entypo } from '@expo/vector-icons';
 import chair from '../../../assets/cadeira.png';
 import Fonts from '../../constants/Fonts';
 
-export default function ProductCard() {
+export default function ProductCard({ navigation }) {
     return(
-        <View style={{ backgroundColor: '#2a2b47', width: 215, borderRadius: 25, height: 310, marginHorizontal: 18, padding: 15}}>
+        <TouchableOpacity onPress={() => navigation.navigate('Product', { product: {
+            name: "Cadeira"
+        } })} style={{ backgroundColor: '#2a2b47', width: 215, borderRadius: 25, height: 310, marginHorizontal: 18, padding: 15}}>
             <TouchableOpacity style={{ backgroundColor: '#f44736', alignSelf: 'flex-end', borderRadius: 200, width: 33, height: 33, alignItems: 'center', justifyContent: 'center' }}>
                 <AntDesign name="heart" size={20} color="#fff" />
             </TouchableOpacity>
@@ -18,6 +20,6 @@ export default function ProductCard() {
                     <Entypo name="plus" size={20} color="#fff" />
                 </TouchableOpacity>
             </View>
-        </View>
+        </TouchableOpacity>
     )
 }
