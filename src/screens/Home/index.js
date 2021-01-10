@@ -4,6 +4,10 @@ import Header from '../../components/Header';
 import Fonts from '../../constants/Fonts';
 import { Ionicons, FontAwesome } from '@expo/vector-icons'; 
 import ProductCard from '../../components/ProductCard';
+import { screenWidth } from '../../constants/Screen';
+import chair from '../../../assets/cadeira.png';
+import { Image } from 'react-native';
+import OfferCard from '../../components/OfferCard';
 
 export default function HomeScreen({ navigation }) {
     const [search, setSearch] = useState('')
@@ -60,11 +64,26 @@ export default function HomeScreen({ navigation }) {
                     </TouchableOpacity>
                 </View>
             </View>
-            <ScrollView style={{ marginTop: 20 }} horizontal>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
-                <ProductCard/>
+            <ScrollView>
+                <ScrollView style={{ marginTop: 20 }} showsHorizontalScrollIndicator={false} horizontal>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                    <ProductCard/>
+                </ScrollView>
+
+                <View style={{ paddingHorizontal: 18, marginTop: 20 }}>
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+                        <Text style={{ color: '#fff', fontSize: 22, fontFamily: Fonts.mainBold }}>Ofertas</Text>
+                        <TouchableOpacity>
+                            <Text style={{ color: '#fff', fontSize: 14, fontFamily: Fonts.mainBold }}>Ver tudo</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <OfferCard/>
+                    <OfferCard/>
+                    <OfferCard/>
+                    <OfferCard/>
+                </View>
             </ScrollView>
         </View>
     );
