@@ -16,11 +16,11 @@ export default function Routes() {
 
     return (
         <NavigationContainer>
-            {isLogged ? (
+            {!isLogged ? (
                 <>{Auth()}</>
             ) : (
-                    <>{Drawer()}</>
-                )}
+                <>{Drawer()}</>
+            )}
         </NavigationContainer>
     )
 }
