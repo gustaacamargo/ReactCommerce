@@ -53,7 +53,7 @@ export default function Header({ navigation, text, goTo, onPress }) {
                 }
             }}
             rightComponent={
-                <TouchableOpacity style={{ width: screenWidth * 0.078, height: screenWidth * 0.078, borderRadius: 250, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
+                <TouchableOpacity onPress={() => navigation.navigate('Cart')} style={{ width: screenWidth * 0.078, height: screenWidth * 0.078, borderRadius: 250, backgroundColor: '#fff', alignItems: 'center', justifyContent: 'center' }}>
                     <SimpleLineIcons style={{ bottom: 1 }} name="handbag" size={18} color="black" />
                 </TouchableOpacity>
             }
