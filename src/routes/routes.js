@@ -6,7 +6,7 @@ import { NavigationContainer } from '@react-navigation/native'
 
 export default function Routes() {
     const { userLogged: { userLogged } } = useStore()
-    const [isLogged, setIsLogged] = useState(false);
+    const [isLogged, setIsLogged] = useState(true);
 
     useEffect(() => {
         if(userLogged.id) {
